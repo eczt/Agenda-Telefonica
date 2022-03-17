@@ -1,0 +1,101 @@
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.*;
+
+public class AddressBook {
+	
+	HashMap<String, String> agendaTelefonica = new HashMap<String, String>();
+	String[] contactos;
+	
+	String telefono;
+	String nombre;
+	
+	String inputArchivo = "/Users/maestra/eclipse-workspace/Actividad4/input.csv";
+	String outputArchivo = "/Users/maestra/eclipse-workspace/Actividad4/output.csv";
+	
+	public void load() {
+		BufferedReader bufferedReader = null;
+		BufferedWriter bufferedWriter = null;
+		
+		try {
+			bufferedReader = new BufferedReader(new FileReader(inputArchivo));
+			bufferedWriter = new BufferedWriter(new FileWriter(outputArchivo));
+			
+			String line;
+			while ((line= bufferedReader.readLine()) != null){
+				System.out.println(line);
+				contactos = line.split(",");
+				agendaTelefonica.put(contactos[0], contactos[1]);
+			}
+		}catch (IOException e) {
+			System.out.println("Hubo un error.");
+		}
+		finally {
+			try {
+				if (bufferedReader != null) {
+					bufferedWriter.close();
+				}
+			}
+			catch (IOException e) {
+				System.out.println("Hubo un error.");
+			}
+		}
+	}
+	
+	public void save() {
+		BufferedWriter bufferedWriter = null;
+		
+		try {
+		bufferedWriter = new BufferedWriter(new FileWriter(outputArchivo));
+		
+		String line;
+		for (HashMap.Entry<String, String> entry : agendaTelefonica.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			
+			line = key + "," + value;
+			bufferedWriter.write(line + "\n");
+		}
+	}catch(IOException e) {
+		System.out.println("Hubo un error: " + e.getMessage());
+		}
+		finally {
+			try {
+				if(bufferedWriter != null) {
+					bufferedWriter.close();
+				}
+			} catch (IOException e) {
+				System.out.println("Hubo un error: " + e.getMessage());
+			}
+		}
+	}
+		
+		public void create() {
+			System.out.println("Ingrese el teléfono: ");
+			Scanner scan1 = new Scanner(System.in);
+			String telefono = scan1.nextLine();
+			System.out.println("Ingresa un nombre:");
+			Scanner scan2 = new Scanner(System.in);
+			String nombre = scan2.nextLine();
+			agendaTelefonica.put(telefono, nombre);
+			save();
+		}
+		
+		public void list() {
+			System.out.println("Lista de contactos: ");
+			for(HashMap.Entry<String, String> entry : agendaTelefonica.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				System.out.println(key + " " + value);
+			}
+		}
+		
+		public void delete() {
+			System.out.println("Ingrese el teléfono a eliminar: ");
+			Scanner scan3 = new Scanner(System.in);
+			String eliminar = scan3.nextLine();
+			agendaTelefonica.remove(eliminar); 
+			save();
+			}
+		}
