@@ -1,0 +1,36 @@
+import java.util.*;
+
+
+public class Main {
+	static AddressBook contactos = new AddressBook();
+	
+
+	public static void main(String[] args) {
+	
+		contactos.load();
+		Scanner keyboard = new Scanner(System.in);
+		int userOption;
+		
+		do {
+			System.out.println("\nIngresa un comando: \n"
+					+ "1) Mostrar contactos en la agenda: \n"
+					+ "2) Ingresar un contacto en la agenda: \n"
+					+ "3) Eliminar un contacto de la agenda: \n");
+			userOption = keyboard.nextInt();
+			switch(userOption) {
+			case 1:
+				contactos.list();
+				break;
+			case 2:
+				contactos.create();
+				break;
+			case 3:
+				contactos.delete();
+				break;
+			}} while(userOption != 4);
+	
+		
+		}
+
+	}
+	
